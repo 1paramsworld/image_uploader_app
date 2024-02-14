@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Multiple Image Upload</title>
+    <style>
+        
+        body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #222; /* Dark background color */
+    color: #fff; /* Text color */
+}
+
+#imageInput {
+    margin-bottom: 20px;
+    padding: 40px;
+}
+
+button {
+    padding: 20px;
+    margin: 10px 0;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+#logoutBtn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#logoutBtn:hover {
+    background-color: #bd2130;
+}
+
+#displayImagesForm {
+    background-color: #343a40;
+    color: white;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+#imagePreview {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#imagePreview img {
+    max-width: 200px;
+    margin: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 3px;
+}
+
+h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #ff8c00; /* Title color, you can change it to brown or red */
+    text-shadow: 2px 2px 4px #000; /* Text shadow for title */
+}
+
+    </style>
+</head>
+
+<body>
+    <h1 style="margin-bottom: 100px;  ">BLOGIFY</h1>
+    <form action="/storeimages" method="post" enctype="multipart/form-data">
+        <input type="file" id="imageInput" name="images" accept="image/*" multiple>
+        <button onclick="uploadImages()">Upload</button>
+        <hr>
+    </form>
+    <div id="imagePreview"></div>
+
+    <form action="/logout" method="post">
+        <button id="logoutBtn" type="submit">Logout</button>
+    </form>
+
+<form id="displayImagesForm" action="/user/{{ email }}/displayimages" method="get">
+    <!-- Your form fields for displaying images can go here -->
+    <button type="submit">Display Images</button>
+</form>
+
+    <script>
+        function uploadImages() {
+            const input = document.getElementById('imageInput');
+            const files = input.files;
+            const imagePreview = document.getElementById('imagePreview');
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+
+                if (file) {
+                    const reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        const image = document.createElement('img');
+                        image.src = e.target.result;
+                        imagePreview.appendChild(image);
+                    }
+
+                    reader.readAsDataURL(file);
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

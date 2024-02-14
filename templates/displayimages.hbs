@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Display Images</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #222; /* Dark background color */
+            color: #8B4513; /* Brown text color */
+        }
+
+        h2 {
+            font-size: 1.5em;
+            color: #8B4513; /* Brown text color */
+        }
+
+        #imageDisplay {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        #imageDisplay img {
+            max-width: 30%; /* Adjust image width as needed */
+            margin: 10px;
+            border: 1px solid #8B4513; /* Brown border */
+            border-radius: 5px;
+            padding: 3px;
+            cursor: pointer;
+            transition: transform 0.3s ease; /* Smooth transition on hover */
+        }
+
+        #imageDisplay img:hover {
+            transform: scale(1.1); /* Enlarge image on hover */
+        }
+
+        #enlargedView {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 999;
+        }
+
+        #enlargedView img {
+            max-width: 90%; /* Increase the maximum width for enlarged image */
+            max-height: 90%;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <h2 style="margin-left: 35%;">CONTENT UPLOADED BY {{ email }}</h2>
+    <div id="imageDisplay">
+        {{#each images}}
+            <img src="data:image/png;base64,{{ this.base64Image }}" alt="Image" onclick="enlargeImage('{{ this.base64Image }}')">
+        {{/each}}
+    </div>
+
+    <div id="enlargedView">
+        <img id="enlargedImg" src="" alt="Enlarged Image" onclick="closeEnlargedView()">
+    </div>
+
+    <script>
+        function enlargeImage(base64Image) {
+            const enlargedImg = document.getElementById('enlargedImg');
+            enlargedImg.src = `data:image/png;base64,${base64Image}`;
+            document.getElementById('enlargedView').style.display = 'block';
+        }
+
+        function closeEnlargedView() {
+            document.getElementById('enlargedView').style.display = 'none';
+        }
+    </script>
+</body>
+
+</html>
