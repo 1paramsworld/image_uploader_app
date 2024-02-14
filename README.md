@@ -1,1 +1,1 @@
-# image_uploader_app
+# image_uploader_application
